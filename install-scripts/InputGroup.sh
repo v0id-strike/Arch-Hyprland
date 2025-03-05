@@ -1,5 +1,5 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
+
 # Adding users into input group #
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##

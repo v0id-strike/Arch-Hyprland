@@ -65,14 +65,14 @@ clear
 
 printf "\n%.0s" {1..2}  
 echo -e "\e[35m
-	╦╔═┌─┐┌─┐╦    ╦ ╦┬ ┬┌─┐┬─┐┬  ┌─┐┌┐┌┌┬┐
-	╠╩╗│ ││ │║    ╠═╣└┬┘├─┘├┬┘│  ├─┤│││ ││ 2025
-	╩ ╩└─┘└─┘╩═╝  ╩ ╩ ┴ ┴  ┴└─┴─┘┴ ┴┘└┘─┴┘ 
+	╦ ╦┬ ┬┌─┐┬─┐┬  ┌─┐┌┐┌┌┬┐
+	╠═╣└┬┘├─┘├┬┘│  ├─┤│││ ││ 2025
+	╩ ╩ ┴ ┴  ┴└─┴─┘┴ ┴┘└┘─┴┘ 
 \e[0m"
 printf "\n%.0s" {1..1} 
 
 # Welcome message
-echo "${SKY_BLUE}Welcome to JaKooLit's Arch-Hyprland (2025) Install Script!${RESET}"
+echo "${SKY_BLUE}Welcome to Arch-Hyprland (2025) Install Script!${RESET}"
 echo
 echo "${WARNING}ATTENTION: Run a full system update and Reboot first!! (Highly Recommended) ${RESET}"
 echo
@@ -328,9 +328,6 @@ fi
 
 if [ "$zsh" == "Y" ]; then
     execute_script "zsh.sh"
-fi
-if [ "$pokemon_choice" == "Y" ]; then
-    execute_script "zsh_pokemon.sh"
 fi
 
 if [ "$input_group" == "Y" ]; then

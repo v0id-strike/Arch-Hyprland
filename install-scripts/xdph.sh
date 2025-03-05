@@ -1,5 +1,5 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
+
 # XDG-Desktop-Portals hyprland #
 
 xdg=(

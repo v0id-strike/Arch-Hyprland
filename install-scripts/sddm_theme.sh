@@ -1,11 +1,9 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
+
 # SDDM themes #
 
-source_theme="https://codeberg.org/JaKooLit/sddm-sequoia"
-theme_name="sequoia_2"
-
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
+
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -16,91 +14,23 @@ cd "$PARENT_DIR" || exit 1
 source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
 # Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_sddm_theme.log"
-    
-# SDDM-themes
-printf "${INFO} Installing ${SKY_BLUE}Additional SDDM Theme${RESET}\n"
+LOG="Install-Logs/install-$(date +%d-%H%M%S)_themes.log"
 
-# Check if /usr/share/sddm/themes/$theme_name exists and remove if it does
-if [ -d "/usr/share/sddm/themes/$theme_name" ]; then
-  sudo rm -rf "/usr/share/sddm/themes/$theme_name"
-  echo -e "\e[1A\e[K${OK} - Removed existing $theme_name directory." 2>&1 | tee -a "$LOG"
+
+# Check if the directory exists and delete it if present
+if [ -d "sddm-astronaut-theme" ]; then
+    echo "$NOTE SDDM themes folder exist..deleting..." 2>&1 | tee -a "$LOG"
+    rm -rf "sddm-astronaut-theme" 2>&1 | tee -a "$LOG"
 fi
 
-# Check if $theme_name directory exists in the current directory and remove if it does
-if [ -d "$theme_name" ]; then
-  rm -rf "$theme_name"
-  echo -e "\e[1A\e[K${OK} - Removed existing $theme_name directory from the current location." 2>&1 | tee -a "$LOG"
-fi
-
-# Clone the repository
-if git clone --depth 1 "$source_theme" "$theme_name"; then
-  if [ ! -d "$theme_name" ]; then
-    echo "${ERROR} Failed to clone the repository." | tee -a "$LOG"
-  fi
-
-  # Create themes directory if it doesn't exist
-  if [ ! -d "/usr/share/sddm/themes" ]; then
-    sudo mkdir -p /usr/share/sddm/themes
-    echo "${OK} - Directory '/usr/share/sddm/themes' created." | tee -a "$LOG"
-  fi
-
-  # Move cloned theme to the themes directory
-  sudo mv "$theme_name" "/usr/share/sddm/themes/$theme_name" 2>&1 | tee -a "$LOG"
-
-
-  # setting up SDDM theme
-  sddm_conf_dir="/etc/sddm.conf.d"
-  BACKUP_SUFFIX=".bak"
-  
-  echo -e "${NOTE} Setting up the login screen." | tee -a "$LOG"
-
-  if [ -d "$sddm_conf_dir" ]; then
-    echo "Backing up files in $sddm_conf_dir" | tee -a "$LOG"
-    for file in "$sddm_conf_dir"/*; do
-      if [ -f "$file" ]; then
-        if [[ "$file" == *$BACKUP_SUFFIX ]]; then
-          echo "Skipping backup file: $file" | tee -a "$LOG"
-          continue
-        fi
-        # Backup each original file
-        sudo cp "$file" "$file$BACKUP_SUFFIX" 2>&1 | tee -a "$LOG"
-        echo "Backup created for $file" | tee -a "$LOG"
-        
-        # Edit existing "Current=" 
-        if grep -q '^[[:space:]]*Current=' "$file"; then
-          sudo sed -i "s/^[[:space:]]*Current=.*/Current=$theme_name/" "$file" 2>&1 | tee -a "$LOG"
-          echo "Updated theme in $file" | tee -a "$LOG"
-        fi
-      fi
-    done
-  else
-    echo "$CAT - $sddm_conf_dir not found, creating..." | tee -a "$LOG"
-    sudo mkdir -p "$sddm_conf_dir" 2>&1 | tee -a "$LOG"
-  fi
-
-  if [ ! -f "$sddm_conf_dir/theme.conf.user" ]; then
-    echo -e "[Theme]\nCurrent = $theme_name" | sudo tee "$sddm_conf_dir/theme.conf.user" > /dev/null
-    
-    if [ -f "$sddm_conf_dir/theme.conf.user" ]; then
-      echo "Created and configured $sddm_conf_dir/theme.conf.user with theme $theme_name" | tee -a "$LOG"
-    else
-      echo "Failed to create $sddm_conf_dir/theme.conf.user" | tee -a "$LOG"
-    fi
-  else
-    echo "$sddm_conf_dir/theme.conf.user already exists, skipping creation." | tee -a "$LOG"
-  fi
-
-  # Replace current background from assets
-  sudo cp -r assets/sddm.png "/usr/share/sddm/themes/$theme_name/backgrounds/default" 2>&1 | tee -a "$LOG"
-  sudo sed -i 's|^wallpaper=".*"|wallpaper="backgrounds/default"|' "/usr/share/sddm/themes/$theme_name/theme.conf" 2>&1 | tee -a "$LOG"
-
-  echo "${OK} - ${MAGENTA}Additional SDDM Theme${RESET} successfully installed." | tee -a "$LOG"
-
+echo "$NOTE Cloning ${SKY_BLUE}SDDM themes${RESET} repository..." 2>&1 | tee -a "$LOG"
+if git clone --depth 1 https://github.com/v0id-strike/sddm-astronaut-theme.git ; then
+    cd sddm-astronaut-theme
+    chmod +x setup.sh
+    ./setup.sh
+    cd ..
 else
-
-  echo "${ERROR} - Failed to clone the sddm theme repository. Please check your internet connection." | tee -a "$LOG" >&2
+    echo "$ERROR Download failed for SDDM themes.." 2>&1 | tee -a "$LOG"
 fi
-
 
 printf "\n%.0s" {1..2}
