@@ -1,5 +1,4 @@
 #!/bin/bash
-# https://github.com/JaKooLit
 
 clear
 
@@ -198,7 +197,7 @@ if ! command -v yay &>/dev/null && ! command -v paru &>/dev/null; then
 fi
 
 printf "\n"
-ask_yes_no "-Install ${YELLOW}GTK themes${RESET} (required for Dark/Light function)?" gtk_themes
+ask_yes_no "-Install ${YELLOW}GTK themes${RESET}?" gtk_themes
 
 printf "\n"
 ask_yes_no "-Do you want to configure ${YELLOW}Bluetooth${RESET}?" bluetooth
@@ -247,10 +246,6 @@ ask_yes_no "-Install ${YELLOW}XDG-DESKTOP-PORTAL-HYPRLAND?${RESET} (For proper S
 
 printf "\n"
 ask_yes_no "-Install ${YELLOW}zsh${RESET} with ${YELLOW}oh-my-zsh?${RESET}" zsh
-
-if [[ "$zsh" == "Y" ]]; then
-    ask_yes_no "-Add ${YELLOW}Pokemon color scripts?${RESET} in your terminal?" pokemon_choice
-fi
 
 printf "\n"
 ask_yes_no "-Installing on ${YELLOW}Asus ROG laptops?${RESET}" rog
@@ -360,9 +355,6 @@ if pacman -Q hyprland &> /dev/null || pacman -Q hyprland-git &> /dev/null; then
     printf "\n${OK} Hyprland is installed. However, some essential packages may not be installed. Please see above!"
     printf "\n${CAT} Ignore this message if it states ${YELLOW}All essential packages${RESET} are installed as per above\n"
     sleep 2
-    printf "\n%.0s" {1..2}
-
-    printf "${SKY_BLUE}Thank you${RESET} for using ${MAGENTA}KooL's Hyprland Dots${RESET}. ${YELLOW}Enjoy and Have a good day!${RESET}"
     printf "\n%.0s" {1..2}
 
     printf "\n${NOTE} You can start Hyprland by typing ${SKY_BLUE}Hyprland${RESET} (IF SDDM is not installed) (note the capital H!).\n"

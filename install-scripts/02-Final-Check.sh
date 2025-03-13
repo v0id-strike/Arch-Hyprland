@@ -1,5 +1,5 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
+
 # Final checking if packages are installed
 # NOTE: These package check are only the essentials
 

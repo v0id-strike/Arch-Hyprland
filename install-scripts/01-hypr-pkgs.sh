@@ -8,7 +8,9 @@
 
 # add packages wanted here
 Extra=(
-
+ranger
+bat
+lsd
 )
 
 hypr_package=( 
@@ -24,8 +26,7 @@ hypr_package=(
   inxi 
   jq
   kitty
-  kvantum
-  nano  
+  kvantum 
   network-manager-applet 
   pamixer 
   pavucontrol
@@ -114,7 +115,7 @@ fi
 printf "\n%.0s" {1..1}
 
 # Installation of main components
-printf "\n%s - Installing ${SKY_BLUE}KooL's hyprland necessary packages${RESET} .... \n" "${NOTE}"
+printf "\n%s - Installing ${SKY_BLUE}necessary packages${RESET} .... \n" "${NOTE}"
 
 for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${Extra[@]}"; do
   install_package "$PKG1" "$LOG"
