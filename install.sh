@@ -331,7 +331,15 @@ clear
 
 # copy fastfetch config if arch.png is not present
 if [ ! -f "$HOME/.config/fastfetch/arch.png" ]; then
-    cp -r assets/fastfetch "$HOME/.config/"
+  if grep -q "Arch" /etc/os-release; then
+    echo "${INFO} This is an Arch-Linux." 2>&1 | tee -a "$LOG"
+    cp -r assets/fastfetch/arch.png "$HOME/.config/fastfetch/"
+    cp -r assets/fastfetch/config_arch.jsonc "$HOME/.config/fastfetch/config.jsonc"
+  else
+    echo "${INFO} This is an Arch-based system." 2>&1 | tee -a "$LOG"
+    cp -r 'assets/fastfetch/cachy.png' "$HOME/.config/fastfetch/"
+    cp -r assets/fastfetch/config_cachyos.jsonc "$HOME/.config/fastfetch/config.jsonc"
+  fi
 fi
 
 # final check essential packages if it is installed
