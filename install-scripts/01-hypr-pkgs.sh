@@ -9,8 +9,6 @@
 # add packages wanted here
 Extra=(
 ranger
-bat
-lsd
 )
 
 hypr_package=( 

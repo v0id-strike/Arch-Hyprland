@@ -3,7 +3,8 @@
 # zsh and oh my zsh#
 
 zsh_pkg=(
-  eza
+  lsd
+  bat
   mercurial
   zsh
   zsh-completions
@@ -71,8 +72,16 @@ if command -v zsh >/dev/null; then
   fi
   
   # Copying the preconfigured zsh themes and profile
-  cp -r 'assets/.zshrc' ~/
-  cp -r 'assets/.zprofile' ~/
+  if grep -q "Arch" /etc/os-release; then
+    echo "${INFO} This is an Arch-Linux." 2>&1 | tee -a "$LOG"
+    cp -r 'assets/.zshrc_arch' ~/.zshrc
+    cp -r 'assets/.zsh_alias' ~/
+    cp -r 'assets/.zprofile' ~/
+  else
+    echo "${INFO} This is an Arch-based system." 2>&1 | tee -a "$LOG"
+    cp -r 'assets/.zshrc_cachyos' ~/.zshrc
+    cp -r 'assets/.zsh_alias' ~/
+  fi
 
   # Check if the current shell is zsh
   if [[ "$SHELL" != *"zsh"* ]]; then
@@ -98,7 +107,7 @@ done
 
 # copy additional oh-my-zsh themes from assets
 if [ -d "$HOME/.oh-my-zsh/themes" ]; then
-    cp -r assets/add_zsh_theme/* ~/.oh-my-zsh/themes >> "$LOG" 2>&1
+    cp -r assets/add_zsh_theme/* /usr/share/oh-my-zsh/themes >> "$LOG" 2>&1
 fi
 
 printf "\n%.0s" {1..2}

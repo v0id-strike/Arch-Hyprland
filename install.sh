@@ -26,18 +26,6 @@ if [[ $EUID -eq 0 ]]; then
     exit 1
 fi
 
-# Check if --preset argument is provided
-if [[ "$1" == "--preset" ]]; then
-    
-    # nvidia
-    if [[ "$2" == "--nvidia" ]]; then
-        sed -i 's/^nvidia=".*"/nvidia="Y"/' preset.sh
-        sed -i 's/^nouveau=".*"/nouveau="Y"/' preset.sh
-    fi
-    
-    source ./preset.sh
-fi
-
 # Check if PulseAudio package is installed
 if pacman -Qq | grep -qw '^pulseaudio$'; then
     echo "$ERROR PulseAudio is detected as installed. Uninstall it first or edit install.sh on line 211 (execute_script 'pipewire.sh')."
@@ -161,6 +149,7 @@ ask_custom_option() {
         fi
     done
 }
+
 # Function to execute a script if it exists and make it executable
 execute_script() {
     local script="$1"
